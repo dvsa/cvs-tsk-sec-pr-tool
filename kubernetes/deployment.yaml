@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sec-pr-tool
+  namespace: ops
+  labels:
+    app: sec-pr-tool
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: sec-pr-tool
+  template:
+    metadata:
+      labels:
+        app: sec-pr-tool
+    spec:
+      containers:
+        - name: sec-pr-tool
+          image: cvs-tsk-sec-pr-tool:latest
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: LOG_LEVEL
+              value: info
+            - name: JENKINS_URL
+              value: jenkins.ops
+            - name: JENKINS_FEATURE_JOB
+              value: UPDATE__FEATURE/job_feature_sec_pr_test
+            - name: JENKINS_BUILD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: sec-pr-tool
+                  key: jenkins_build_token
+            - name: JENKINS_USER
+              value: jenkins
+            - name: JENKINS_APP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: sec-pr-tool
+                  key: jenkins_app_token
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sec-pr-tool
+                  key: app_id
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sec-pr-tool
+                  key: webhook_secret
+          resources:
+            limits:
+              cpu: 300m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 5
