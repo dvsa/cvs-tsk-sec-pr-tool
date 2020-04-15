@@ -4,7 +4,6 @@ import {
   WebhookPayloadPullRequest,
 } from "@octokit/webhooks";
 import addLabel from "../labels/addLabel";
-import { mergeFromPRComment } from "./merge";
 
 export const rebuildLabel = "Needs Rebuild";
 
@@ -30,15 +29,11 @@ export const handleComment = async (
   }
   // @ts-ignore pull_request is a part of the issue object, but not exposed in Octokit for some reason...
   if (context.payload.issue.pull_request) {
-    if (context.payload.comment.body.startsWith("/")) {
-      switch (context.payload.comment.body.split("/")[1]) {
-        case "rebuild":
-          await addLabel(context, [rebuildLabel]);
-          break;
-        case "merge":
-          await mergeFromPRComment(context);
-          break;
-      }
+    if (
+      context.payload.comment.body.startsWith("/") &&
+      context.payload.comment.body.split("/")[1] === "rebuild"
+    ) {
+      await addLabel(context, [rebuildLabel]);
     }
   } else {
     context.log.info("Not handling non-PR comments yet.");
