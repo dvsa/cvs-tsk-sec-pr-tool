@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sec-pr-tool
+  namespace: ops
+  labels:
+    app: sec-pr-tool
+type: Opaque
+data:
+  jenkins_build_token : <base64 encoded string>
+  jenkins_app_token: <base64 encoded string>
+  app_id: <base64 encoded string>
+  webhook_secret: <base64 encoded string>
+  private_key: <base64 encoded string>
+
