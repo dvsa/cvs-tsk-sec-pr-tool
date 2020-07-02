@@ -16,7 +16,7 @@ export default async (
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
   });
-  if (context.payload.pull_request.user.login === "dependabot") {
+  if (context.payload.pull_request.user.login === "dependabot[bot]") {
     context.log.info(`Sec PR ${context.payload.pull_request._links.html}`);
     await securityPr(context);
   } else if (
