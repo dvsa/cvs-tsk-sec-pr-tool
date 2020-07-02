@@ -27,6 +27,7 @@ export const handleComment = async (
     context.log.info("Not a CVS repository");
     return;
   }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore pull_request is a part of the issue object, but not exposed in Octokit for some reason...
   if (context.payload.issue.pull_request) {
     if (
