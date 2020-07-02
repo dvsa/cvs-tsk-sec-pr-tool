@@ -44,8 +44,7 @@
     "prettier": "^2.0.5",
     "smee-client": "^1.1.0",
     "ts-jest": "^26.1.1",
-    "typescript": "^3.9.6",
-    "lodash": "4.17.3"
+    "typescript": "^3.9.6"
   },
   "jest": {
     "testEnvironment": "node"
