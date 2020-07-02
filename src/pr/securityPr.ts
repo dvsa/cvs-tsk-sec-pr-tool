@@ -1,4 +1,4 @@
-import { Context } from "probot";
+import { Context, Octokit } from "probot";
 import { WebhookPayloadPullRequest } from "@octokit/webhooks";
 import comment, { rebuildLabel } from "./comment";
 import { setStatus } from "./status";
@@ -6,20 +6,25 @@ import { buildService, waitForBuildStatus } from "../cicd/build";
 import { BuildStatus } from "../cicd/util";
 import removeLabel from "../labels/removeLabel";
 import { mergeFromPullRequest } from "./merge";
+
 const statusName = "Jenkins/BE-Build&Test";
+const PRBase = "develop";
 
 export default async (
   context: Context<WebhookPayloadPullRequest>,
 ): Promise<void> => {
   context.log.info("Received a Security PR");
-  if (context.payload.pull_request.base.ref !== "devops") {
-    context.log.info("Security PR not pulling into devops");
-    if (process.env.NOTIFY_GITHUB_LOGIN) {
-      await comment(
-        context,
-        `@${process.env.NOTIFY_GITHUB_LOGIN}, this PR is going to the wrong branch.`,
-      );
-    }
+  // Check if the PR base is the correct branch
+  if (context.payload.pull_request.base.ref !== PRBase) {
+    context.log.info(`Security PR not pulling into ${PRBase}`);
+    // Set the PR base to the correct branch.
+    const updateParams: Octokit.PullsUpdateParams = {
+      owner: context.payload.repository.owner.login,
+      pull_number: context.payload.pull_request.number,
+      repo: context.payload.repository.name,
+      base: PRBase,
+    };
+    await context.github.pulls.update(updateParams);
     return;
   }
 
@@ -53,7 +58,7 @@ export default async (
 
   context.log.info(`Build: ${BuildStatus[buildStatus]}`);
   if ([BuildStatus.PASS, BuildStatus.UNSTABLE].includes(buildStatus)) {
-    const pr_req = {
+    const pr_req: Octokit.PullsGetParams = {
       pull_number: context.payload.pull_request.number,
       owner: context.payload.repository.owner.login,
       repo: context.payload.repository.name,
@@ -65,6 +70,8 @@ export default async (
     }
     if (pr.data.mergeable) {
       await mergeFromPullRequest(context);
+    } else {
+      await comment(context, "@dependabot rebase");
     }
   }
 };

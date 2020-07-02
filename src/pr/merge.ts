@@ -12,6 +12,5 @@ export const mergeFromPullRequest = async (
       repo: context.payload.repository.name,
       owner: context.payload.repository.owner.login,
       pull_number: context.payload.pull_request.number,
-      sha: context.payload.pull_request.head.sha,
     });
 };
