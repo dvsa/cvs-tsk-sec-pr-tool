@@ -10,7 +10,15 @@ export default async (
     context.log.info(`Repo: ${context.payload.repository.name} not a CVS repo`);
     return;
   }
-  context.log.info("(re)enabling Dependabot automated security fixes.");
+  context.log.info("Fixing merge permissions.");
+  await context.github.repos.update({
+    owner: context.payload.repository.owner.login,
+    repo: context.payload.repository.name,
+    allow_merge_commit: false,
+    allow_rebase_merge: true,
+    allow_squash_merge: true,
+  });
+  context.log.info("Fixing Dependabot automated security fix settings.");
   await context.github.repos.enableAutomatedSecurityFixes({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
