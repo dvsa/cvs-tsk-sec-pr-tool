@@ -9,7 +9,7 @@ export default async (
     context.log.warn("Dependabot config is a directory?");
     return;
   }
-  if (conf.content !== undefined) {
+  if (conf.content === undefined) {
     return;
   }
   const deleteFileReq: Octokit.ReposDeleteFileParams = {
