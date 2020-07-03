@@ -1,14 +1,11 @@
 {
   "name": "cvs-tsk-sec-pr-tool",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Finds dependabot PRs and take actions",
   "main": "index.js",
   "author": "Martin Kemp",
   "repository": "https://github.com/dvsa/cvs-tsk-sec-pr-tool",
   "license": "MIT",
-  "engines": {
-    "node": ">=12.16 <13"
-  },
   "scripts": {
     "audit-dep": "npm audit",
     "build": "tsc",

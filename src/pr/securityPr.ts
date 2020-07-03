@@ -6,6 +6,7 @@ import { buildService, waitForBuildStatus } from "../cicd/build";
 import { BuildStatus } from "../cicd/util";
 import removeLabel from "../labels/removeLabel";
 import { mergeFromPullRequest } from "./merge";
+import removeDependabotConfig from "./removeDependabotConfig";
 
 const statusName = "Jenkins/BE-Build&Test";
 const PRBase = "develop";
@@ -27,6 +28,9 @@ export default async (
     await context.github.pulls.update(updateParams);
     return;
   }
+
+  // Let's try to delete the the old dependabot config, if it exists.
+  await removeDependabotConfig(context);
 
   await setStatus(context, "pending", statusName);
   let buildNumber: number | undefined;
