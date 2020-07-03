@@ -3,7 +3,7 @@ USER root
 
 WORKDIR /usr/src/app
 RUN npm config set user root
-RUN apk add --no-cache --virtual .build-deps alpine-sdk python
+RUN apk add --no-cache --virtual .build-deps alpine-sdk bash python
 RUN npm install -g probot node-prune --production
 
 COPY package.json package-lock.json ./
