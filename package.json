@@ -1,6 +1,6 @@
 {
   "name": "cvs-tsk-sec-pr-tool",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Finds dependabot PRs and take actions",
   "main": "index.js",
   "author": "Martin Kemp",
