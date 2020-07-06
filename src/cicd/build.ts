@@ -35,6 +35,7 @@ export const waitForBuildStatus = async (
   buildNumber: number,
   statusName: string,
 ): Promise<BuildStatus> => {
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const [buildStatus, buildUrl] = await getBuildStatus(buildNumber);
     switch (buildStatus) {
