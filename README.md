@@ -9,8 +9,8 @@
 5. Create a `.env` file like so:
     ```dotenv
     # The ID of your GitHub App
-    APP_ID=<App ID>
-    WEBHOOK_SECRET=<insert secret here>
+    APP_ID=...
+    WEBHOOK_SECRET=...
     PRIVATE_KEY_PATH=./yourprivatekeyhere.pem
     # Use `trace` to get verbose logging or `info` to show less
     LOG_LEVEL=debug
@@ -20,11 +20,11 @@
     WEBHOOK_PROXY_URL=https://smee.io/asdfg
     
     # Jenkins
-    JENKINS_URL=<jenkins url>
-    JENKINS_FEATURE_JOB=UPDATE__FEATURE/job_feature_sec_pr_test
-    JENKINS_BUILD_TOKEN=asdf
+    JENKINS_URL=...
+    JENKINS_FEATURE_JOB=...
+    JENKINS_BUILD_TOKEN=...
     JENKINS_USER=jenkins
-    JENKINS_APP_TOKEN=asdfg
+    JENKINS_APP_TOKEN=...
     ```
 6. `npm run dev`
 7. Generate requests by commenting on PRs etc.
