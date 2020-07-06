@@ -5,6 +5,7 @@ export default async (
   context: Context<WebhookPayloadPullRequest>,
 ): Promise<void> => {
   const conf = await getOldConfig(context);
+  if (conf === undefined) return;
   if (Array.isArray(conf)) {
     context.log.warn("Dependabot config is a directory?");
     return;
@@ -25,7 +26,7 @@ export default async (
 
 const getOldConfig = async (
   context: Context<WebhookPayloadPullRequest>,
-): Promise<Octokit.ReposGetContentsResponse> => {
+): Promise<Octokit.ReposGetContentsResponse | undefined> => {
   // Get config contents
   const getParams: Octokit.ReposGetContentsParams = {
     owner: context.payload.repository.owner.login,
@@ -33,5 +34,10 @@ const getOldConfig = async (
     ref: context.payload.pull_request.head.ref,
     repo: context.payload.repository.name,
   };
-  return (await context.github.repos.getContents(getParams)).data;
+  try {
+    return (await context.github.repos.getContents(getParams)).data;
+  } catch (e) {
+    context.log.warn(`File not found`);
+    return;
+  }
 };
