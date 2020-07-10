@@ -1,8 +1,13 @@
 module.exports = {
+  preset: "ts-jest",
+  testEnvironment: "node",
   roots: ["<rootDir>/src/", "<rootDir>/test/"],
+  testRegex: ".*\\.test.ts",
+  testResultsProcessor: "jest-sonar-reporter",
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.ts$": "ts-jest",
   },
-  testRegex: "(/__tests__/.*|\\.(test|spec))\\.[tj]sx?$",
+  coverageDirectory: "./coverage",
+  collectCoverage: true,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };

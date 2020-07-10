@@ -209,3 +209,4 @@ lib/
 *.pem
 .idea/
 .scannerwork/
+test-report.xml
