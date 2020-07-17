@@ -42,7 +42,7 @@
     "prettier": "^2.0.5",
     "smee-client": "^1.1.0",
     "ts-jest": "^26.1.2",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   },
   "jest": {
     "testEnvironment": "node"
