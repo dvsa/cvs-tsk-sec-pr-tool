@@ -1,6 +1,6 @@
 import prBot from "../src";
 import { Probot } from "probot";
-import nock = require("nock");
+import nock from "nock";
 
 nock.disableNetConnect();
 describe("The pr bot", () => {
