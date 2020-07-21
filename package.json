@@ -3,6 +3,7 @@
   "version": "2.0.6",
   "description": "Finds dependabot PRs and take actions",
   "main": "index.js",
+  "type": "module",
   "author": "Martin Kemp",
   "repository": "https://github.com/dvsa/cvs-tsk-sec-pr-tool",
   "license": "MIT",
@@ -45,6 +46,16 @@
     "typescript": "^3.9.7"
   },
   "jest": {
-    "testEnvironment": "node"
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src/", "<rootDir>/test/"],
+    "testRegex": ".*\\.test.ts",
+    "testResultsProcessor": "jest-sonar-reporter",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "collectCoverage": true,
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   }
 }
