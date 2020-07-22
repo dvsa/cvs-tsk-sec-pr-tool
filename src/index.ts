@@ -3,7 +3,7 @@ import pr from "./pr/pr";
 import { handleComment } from "./pr/comment";
 import fs from "fs";
 
-export default (app: Application): void => {
+export = (app: Application): void => {
   app.log.info("Okay! Starting...");
 
   if (process.env.KUBERNETES_SERVICE_HOST) {

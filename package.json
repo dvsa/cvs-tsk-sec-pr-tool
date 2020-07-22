@@ -3,7 +3,6 @@
   "version": "2.1.1",
   "description": "Finds dependabot PRs and take actions",
   "main": "index.js",
-  "type": "module",
   "author": "Martin Kemp",
   "repository": "https://github.com/dvsa/cvs-tsk-sec-pr-tool",
   "license": "MIT",
