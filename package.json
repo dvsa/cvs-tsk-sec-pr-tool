@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "jenkins": "^0.28.0",
-    "probot": "^9.12.0"
+    "probot": "^9.13.0"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
