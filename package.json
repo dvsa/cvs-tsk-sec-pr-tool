@@ -22,7 +22,7 @@
     "sonar-scanner": "echo 'Not implemented'"
   },
   "dependencies": {
-    "jenkins": "^0.28.0",
+    "jenkins": "^0.28.1",
     "probot": "^9.14.1"
   },
   "devDependencies": {
