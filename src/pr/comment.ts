@@ -1,14 +1,11 @@
 import { Context } from "probot";
-import {
-  WebhookPayloadIssueComment,
-  WebhookPayloadPullRequest,
-} from "@octokit/webhooks";
+import { EventPayloads } from "@octokit/webhooks";
 import addLabel from "../labels/addLabel";
 
 export const rebuildLabel = "Needs Rebuild";
 
 export default async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
   body: string,
 ): Promise<void> => {
   const resp = await context.github.issues.createComment(
@@ -20,7 +17,7 @@ export default async (
 };
 
 export const handleComment = async (
-  context: Context<WebhookPayloadIssueComment>,
+  context: Context<EventPayloads.WebhookPayloadIssueComment>,
 ): Promise<void> => {
   context.log.info(`Got the comment on ${context.payload.issue.html_url}`);
   if (!context.payload.repository.name.startsWith("cvs-")) {

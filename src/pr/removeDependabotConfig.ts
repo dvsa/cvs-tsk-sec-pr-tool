@@ -1,8 +1,9 @@
-import { Context, Octokit } from "probot";
-import { WebhookPayloadPullRequest } from "@octokit/webhooks";
+import { Context } from "probot";
+import { EventPayloads } from "@octokit/webhooks";
+import { ReposGetContentResponseData } from "@octokit/types";
 
 export default async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
 ): Promise<void> => {
   const conf = await getOldConfig(context);
   if (conf === undefined) return;
@@ -13,29 +14,26 @@ export default async (
   if (conf.content === undefined) {
     return;
   }
-  const deleteFileReq: Octokit.ReposDeleteFileParams = {
-    owner: context.payload.repository.owner.login,
+  const deleteFileReq = context.repo({
     path: ".dependabot/config.yml",
     branch: context.payload.pull_request.head.ref,
-    repo: context.payload.repository.name,
     message: "[auto] Delete old Dependabot config",
     sha: conf.sha,
-  };
+  });
   await context.github.repos.deleteFile(deleteFileReq);
 };
 
 const getOldConfig = async (
-  context: Context<WebhookPayloadPullRequest>,
-): Promise<Octokit.ReposGetContentsResponse | undefined> => {
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
+): Promise<ReposGetContentResponseData | undefined> => {
   // Get config contents
-  const getParams: Octokit.ReposGetContentsParams = {
-    owner: context.payload.repository.owner.login,
-    path: ".dependabot/config.yml",
+  const getParams = context.repo({
     ref: context.payload.pull_request.head.ref,
-    repo: context.payload.repository.name,
-  };
+    path: ".dependabot/config.yml",
+  });
   try {
-    return (await context.github.repos.getContents(getParams)).data;
+    const resp = await context.github.repos.getContents(getParams);
+    return { target: "", submodule_git_url: "", ...resp.data };
   } catch (e) {
     context.log.warn(`File not found`);
     return;

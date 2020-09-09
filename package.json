@@ -23,15 +23,15 @@
   },
   "dependencies": {
     "jenkins": "^0.28.1",
-    "probot": "^9.14.1"
+    "probot": "^10.2.0"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
     "@types/jenkins": "^0.23.1",
     "@types/jest": "^26.0.13",
     "@types/node": "^14.x",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^3.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -47,7 +47,10 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": ["<rootDir>/src/", "<rootDir>/test/"],
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/test/"
+    ],
     "testRegex": ".*\\.test.ts",
     "testResultsProcessor": "jest-sonar-reporter",
     "transform": {
@@ -55,6 +58,13 @@
     },
     "coverageDirectory": "./coverage",
     "collectCoverage": true,
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

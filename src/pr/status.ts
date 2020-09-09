@@ -1,8 +1,8 @@
 import { Context } from "probot";
-import { WebhookPayloadPullRequest } from "@octokit/webhooks";
+import { EventPayloads } from "@octokit/webhooks";
 
 export const setStatus = async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
   state: "error" | "failure" | "pending" | "success",
   statusName: string,
   description?: string,

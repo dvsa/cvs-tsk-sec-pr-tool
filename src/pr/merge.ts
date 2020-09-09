@@ -1,8 +1,8 @@
 import { Context } from "probot";
-import { WebhookPayloadPullRequest } from "@octokit/webhooks";
+import { EventPayloads } from "@octokit/webhooks";
 
 export const mergeFromPullRequest = async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
   mergeMethod: "squash" | "merge" = "squash",
 ): Promise<void> => {
   context.log.info("Merging...");

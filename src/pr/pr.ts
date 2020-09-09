@@ -1,9 +1,9 @@
 import { Context } from "probot";
-import { WebhookPayloadPullRequest } from "@octokit/webhooks";
+import { EventPayloads } from "@octokit/webhooks";
 import securityPr from "./securityPr";
 
 export default async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
 ): Promise<void> => {
   context.log.info("Received a PR");
   if (!context.payload.repository.name.startsWith("cvs-")) {

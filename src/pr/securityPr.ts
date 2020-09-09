@@ -1,5 +1,5 @@
-import { Context, Octokit } from "probot";
-import { WebhookPayloadPullRequest } from "@octokit/webhooks";
+import { Context } from "probot";
+import { EventPayloads } from "@octokit/webhooks";
 import comment, { rebuildLabel } from "./comment";
 import { setStatus } from "./status";
 import { buildService, waitForBuildStatus } from "../cicd/build";
@@ -12,19 +12,14 @@ const statusName = "Jenkins/BE-Build&Test";
 const PRBase = "develop";
 
 export default async (
-  context: Context<WebhookPayloadPullRequest>,
+  context: Context<EventPayloads.WebhookPayloadPullRequest>,
 ): Promise<void> => {
   context.log.info("Received a Security PR");
   // Check if the PR base is the correct branch
   if (context.payload.pull_request.base.ref !== PRBase) {
     context.log.info(`Security PR not pulling into ${PRBase}`);
     // Set the PR base to the correct branch.
-    const updateParams: Octokit.PullsUpdateParams = {
-      owner: context.payload.repository.owner.login,
-      pull_number: context.payload.pull_request.number,
-      repo: context.payload.repository.name,
-      base: PRBase,
-    };
+    const updateParams = context.pullRequest({ base: PRBase });
     await context.github.pulls.update(updateParams);
     return;
   }
@@ -62,11 +57,7 @@ export default async (
 
   context.log.info(`Build: ${BuildStatus[buildStatus]}`);
   if ([BuildStatus.PASS, BuildStatus.UNSTABLE].includes(buildStatus)) {
-    const pr_req: Octokit.PullsGetParams = {
-      pull_number: context.payload.pull_request.number,
-      owner: context.payload.repository.owner.login,
-      repo: context.payload.repository.name,
-    };
+    const pr_req = context.pullRequest();
     let pr = await context.github.pulls.get(pr_req);
     while (pr.data.mergeable === null) {
       await new Promise((r) => setTimeout(r, 5000));
