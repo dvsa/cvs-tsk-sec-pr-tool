@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "jenkins": "^0.28.1",
-    "probot": "^10.17.2"
+    "probot": "^10.17.3"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
