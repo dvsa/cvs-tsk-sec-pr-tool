@@ -11,7 +11,7 @@ export default async (
     return;
   }
   context.log.info("Fixing merge permissions.");
-  await context.github.repos.update({
+  await context.octokit.repos.update({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
     allow_merge_commit: false,
@@ -19,7 +19,7 @@ export default async (
     allow_squash_merge: true,
   });
   context.log.info("Fixing Dependabot automated security fix settings.");
-  await context.github.repos.enableAutomatedSecurityFixes({
+  await context.octokit.repos.enableAutomatedSecurityFixes({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
   });
@@ -31,7 +31,7 @@ export default async (
   ) {
     context.log.info("Closing old dependabot PR");
     // Close the PR.
-    await context.github.issues.update({
+    await context.octokit.issues.update({
       owner: context.payload.repository.owner.login,
       repo: context.payload.repository.name,
       issue_number: context.payload.pull_request.number,

@@ -1,6 +1,6 @@
 import { Context } from "probot";
 import { EventPayloads } from "@octokit/webhooks";
-import { ReposGetContentResponseData } from "@octokit/types";
+import { components } from "@octokit/openapi-types";
 
 export default async (
   context: Context<EventPayloads.WebhookPayloadPullRequest>,
@@ -20,20 +20,22 @@ export default async (
     message: "[auto] Delete old Dependabot config",
     sha: conf.sha,
   });
-  await context.github.repos.deleteFile(deleteFileReq);
+  await context.octokit.repos.deleteFile(deleteFileReq);
 };
+
+type GetRepoContentResponseData = components["schemas"]["content-file"];
 
 const getOldConfig = async (
   context: Context<EventPayloads.WebhookPayloadPullRequest>,
-): Promise<ReposGetContentResponseData | undefined> => {
+): Promise<GetRepoContentResponseData | undefined> => {
   // Get config contents
   const getParams = context.repo({
     ref: context.payload.pull_request.head.ref,
     path: ".dependabot/config.yml",
   });
   try {
-    const resp = await context.github.repos.getContents(getParams);
-    return { target: "", submodule_git_url: "", ...resp.data };
+    const resp = await context.octokit.repos.getContent(getParams);
+    return resp.data as GetRepoContentResponseData;
   } catch (e) {
     context.log.warn(`File not found`);
     return;

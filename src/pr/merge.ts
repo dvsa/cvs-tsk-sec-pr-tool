@@ -7,7 +7,7 @@ export const mergeFromPullRequest = async (
 ): Promise<void> => {
   context.log.info("Merging...");
   if (context.payload.pull_request)
-    await context.github.pulls.merge({
+    await context.octokit.pulls.merge({
       merge_method: mergeMethod,
       repo: context.payload.repository.name,
       owner: context.payload.repository.owner.login,

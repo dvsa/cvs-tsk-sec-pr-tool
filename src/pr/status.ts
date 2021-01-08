@@ -8,7 +8,7 @@ export const setStatus = async (
   description?: string,
   target_url?: string,
 ): Promise<void> => {
-  const resp = await context.github.repos.createStatus(
+  const resp = await context.octokit.repos.createCommitStatus(
     context.issue({
       sha: context.payload.pull_request.head.sha,
       context: statusName,

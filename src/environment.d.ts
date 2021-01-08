@@ -6,6 +6,5 @@ declare namespace NodeJS {
     JENKINS_BUILD_TOKEN: string;
     JENKINS_USER: string;
     JENKINS_APP_TOKEN: string;
-    NOTIFY_GITHUB_LOGIN: string | undefined;
   }
 }

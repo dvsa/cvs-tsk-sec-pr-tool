@@ -20,7 +20,7 @@ export default async (
     context.log.info(`Security PR not pulling into ${PRBase}`);
     // Set the PR base to the correct branch.
     const updateParams = context.pullRequest({ base: PRBase });
-    await context.github.pulls.update(updateParams);
+    await context.octokit.pulls.update(updateParams);
     return;
   }
 
@@ -58,10 +58,10 @@ export default async (
   context.log.info(`Build: ${BuildStatus[buildStatus]}`);
   if ([BuildStatus.PASS, BuildStatus.UNSTABLE].includes(buildStatus)) {
     const pr_req = context.pullRequest();
-    let pr = await context.github.pulls.get(pr_req);
+    let pr = await context.octokit.pulls.get(pr_req);
     while (pr.data.mergeable === null) {
       await new Promise((r) => setTimeout(r, 5000));
-      pr = await context.github.pulls.get(pr_req);
+      pr = await context.octokit.pulls.get(pr_req);
     }
     if (pr.data.mergeable) {
       await mergeFromPullRequest(context);

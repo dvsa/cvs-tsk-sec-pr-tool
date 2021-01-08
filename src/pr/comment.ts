@@ -8,7 +8,7 @@ export default async (
   context: Context<EventPayloads.WebhookPayloadPullRequest>,
   body: string,
 ): Promise<void> => {
-  const resp = await context.github.issues.createComment(
+  const resp = await context.octokit.issues.createComment(
     context.issue({
       body: body,
     }),
