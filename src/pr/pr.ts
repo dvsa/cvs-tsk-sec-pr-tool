@@ -18,11 +18,19 @@ export default async (
     allow_rebase_merge: true,
     allow_squash_merge: true,
   });
-  context.log.info("Fixing Dependabot automated security fix settings.");
+
+  context.log.info("Enabling Dependabot automated security fixes.");
   await context.octokit.repos.enableAutomatedSecurityFixes({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
   });
+
+  context.log.info("Enabling Dependabot vulnerability alerts.");
+  await context.octokit.repos.enableVulnerabilityAlerts({
+    owner: context.payload.repository.owner.login,
+    repo: context.payload.repository.name,
+  });
+
   if (context.payload.pull_request.user.login === "dependabot[bot]") {
     context.log.info(`Sec PR ${context.payload.pull_request.html_url}`);
     await securityPr(context);
