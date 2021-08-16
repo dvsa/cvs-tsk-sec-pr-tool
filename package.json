@@ -30,7 +30,7 @@
     "@types/jenkins": "^0.23.2",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.x",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
